@@ -7,6 +7,15 @@ import { CardSkeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
 import { FileText, Plus, Trash2 } from "lucide-react";
 
+interface ContentDraft {
+  _id: string;
+  title: string;
+  content: string;
+  platform: string;
+  status: "draft" | "review" | "approved" | "published";
+  createdAt: number;
+}
+
 function ContentColumn({
   title,
   status,
@@ -14,7 +23,7 @@ function ContentColumn({
 }: {
   title: string;
   status: string;
-  drafts: any[];
+  drafts: ContentDraft[];
 }) {
   return (
     <div className="flex flex-col gap-3 flex-1 min-w-0">
@@ -60,7 +69,7 @@ function ContentColumn({
 }
 
 export default function ContentPage() {
-  const drafts = [];
+  const drafts: ContentDraft[] = [];
 
   if (!drafts) {
     return (
