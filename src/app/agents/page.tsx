@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Bot, Zap, BookOpen } from "lucide-react";
 import { mockAgents } from "@/lib/mock-data";
+import { Suspense } from "react";
 
 const TABS = [
   { id: "agents", label: "Agents" },
@@ -135,7 +136,7 @@ function ModelsTab() {
   );
 }
 
-export default function AgentsPage() {
+function AgentsPageContent() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "agents";
 
@@ -172,5 +173,13 @@ export default function AgentsPage() {
         {tab === "models" && <ModelsTab />}
       </motion.div>
     </div>
+  );
+}
+
+export default function AgentsPage() {
+  return (
+    <Suspense fallback={<CardSkeleton />}>
+      <AgentsPageContent />
+    </Suspense>
   );
 }
