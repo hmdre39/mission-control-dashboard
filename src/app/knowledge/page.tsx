@@ -11,6 +11,15 @@ import { Search, FileText, Package, Zap, BarChart } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
+interface EcosystemProduct {
+  _id: string;
+  slug: string;
+  name: string;
+  description: string;
+  status: "active" | "development" | "concept";
+  metrics?: Record<string, any>;
+}
+
 const TABS = [
   { id: "knowledge", label: "Knowledge" },
   { id: "ecosystem", label: "Ecosystem" },
@@ -108,7 +117,7 @@ function KnowledgeTab() {
 }
 
 function EcosystemTab() {
-  const products = [];
+  const products: EcosystemProduct[] = [];
 
   if (!products) {
     return (
