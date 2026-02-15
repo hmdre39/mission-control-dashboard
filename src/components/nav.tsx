@@ -12,8 +12,16 @@ import {
   Brain,
   Code2,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const NAV_ITEMS = [
+interface NavItem {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+  id: string;
+}
+
+const NAV_ITEMS: NavItem[] = [
   { href: "/", label: "Home", icon: Home, id: "home" },
   { href: "/ops", label: "Ops", icon: Settings, id: "ops" },
   { href: "/agents", label: "Agents", icon: Users, id: "agents" },
