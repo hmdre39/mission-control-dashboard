@@ -1,11 +1,10 @@
 "use client";
 
-
-
 import { Card } from "@/components/ui/card";
 import { CardSkeleton } from "@/components/ui/skeleton";
 import { TabBar } from "@/components/tab-bar";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { motion } from "framer-motion";
 import { Search, FileText, Package, Zap, BarChart } from "lucide-react";
 import { useState } from "react";
@@ -192,7 +191,7 @@ function EcosystemTab() {
   );
 }
 
-export default function KnowledgePage() {
+function KnowledgePageContent() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "knowledge";
 
@@ -229,5 +228,13 @@ export default function KnowledgePage() {
         {tab === "ecosystem" && <EcosystemTab />}
       </motion.div>
     </div>
+  );
+}
+
+export default function KnowledgePage() {
+  return (
+    <Suspense fallback={<CardSkeleton />}>
+      <KnowledgePageContent />
+    </Suspense>
   );
 }

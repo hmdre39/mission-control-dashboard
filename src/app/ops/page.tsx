@@ -4,10 +4,10 @@ import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { TabBar } from "@/components/tab-bar";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, XCircle, AlertCircle, Calendar, Clock } from "lucide-react";
 import { mockSystemStatus, mockCronJobs, mockTasks } from "@/lib/mock-data";
-import { useMutation } from "convex/react";
 
 const TABS = [
   { id: "operations", label: "Operations" },
@@ -236,7 +236,7 @@ function CalendarTab() {
   );
 }
 
-export default function OpsPage() {
+function OpsPageContent() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "operations";
 
@@ -274,5 +274,13 @@ export default function OpsPage() {
         {tab === "calendar" && <CalendarTab />}
       </motion.div>
     </div>
+  );
+}
+
+export default function OpsPage() {
+  return (
+    <Suspense fallback={<div className="p-4">Loading...</div>}>
+      <OpsPageContent />
+    </Suspense>
   );
 }

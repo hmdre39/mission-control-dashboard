@@ -3,6 +3,7 @@
 import { Card } from "@/components/ui/card";
 import { TabBar } from "@/components/tab-bar";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { motion } from "framer-motion";
 import { MessageSquare } from "lucide-react";
 import { mockClients } from "@/lib/mock-data";
@@ -157,7 +158,7 @@ function CRMTab() {
   );
 }
 
-export default function CommsPage() {
+function CommsPageContent() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "comms";
 
@@ -194,5 +195,13 @@ export default function CommsPage() {
         {tab === "crm" && <CRMTab />}
       </motion.div>
     </div>
+  );
+}
+
+export default function CommsPage() {
+  return (
+    <Suspense fallback={<div className="p-4">Loading...</div>}>
+      <CommsPageContent />
+    </Suspense>
   );
 }
