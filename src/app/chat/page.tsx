@@ -1,7 +1,5 @@
 "use client";
 
-
-
 import { Card } from "@/components/ui/card";
 import { CardSkeleton } from "@/components/ui/skeleton";
 import { TabBar } from "@/components/tab-bar";
@@ -9,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { Send, Mic, MessageCircle } from "lucide-react";
+import { Suspense } from "react";
 
 const TABS = [
   { id: "chat", label: "Chat" },
@@ -204,7 +203,7 @@ function CommandTab() {
   );
 }
 
-export default function ChatPage() {
+function ChatPageContent() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "chat";
 
@@ -241,5 +240,13 @@ export default function ChatPage() {
         {tab === "command" && <CommandTab />}
       </motion.div>
     </div>
+  );
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense fallback={<CardSkeleton />}>
+      <ChatPageContent />
+    </Suspense>
   );
 }
