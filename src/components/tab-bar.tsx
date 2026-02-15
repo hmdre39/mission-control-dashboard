@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
+import { Suspense } from "react";
 
 interface Tab {
   id: string;
@@ -13,7 +14,7 @@ interface TabBarProps {
   defaultTab?: string;
 }
 
-export function TabBar({ tabs, defaultTab = tabs[0]?.id }: TabBarProps) {
+function TabBarContent({ tabs, defaultTab = tabs[0]?.id }: TabBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const activeTab = searchParams.get("tab") || defaultTab;
@@ -51,5 +52,13 @@ export function TabBar({ tabs, defaultTab = tabs[0]?.id }: TabBarProps) {
         );
       })}
     </div>
+  );
+}
+
+export function TabBar({ tabs, defaultTab = tabs[0]?.id }: TabBarProps) {
+  return (
+    <Suspense fallback={<div className="h-10 bg-white/[0.05] rounded-[12px]" />}>
+      <TabBarContent tabs={tabs} defaultTab={defaultTab} />
+    </Suspense>
   );
 }
