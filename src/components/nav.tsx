@@ -61,7 +61,7 @@ export function Nav() {
               return (
                 <Link
                   key={item.id}
-                  href={item.href}
+                  href={item.href as any}
                   className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-[12px] text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 ${
                     isActive
                       ? "text-primary bg-primary/[0.06]"
