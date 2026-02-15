@@ -16,13 +16,13 @@ const TABS = [
 ];
 
 function ChatTab() {
-  const mockSessions = [{ _id: "1", sessionKey: "session-001", channel: "telegram", lastMessage: "See you!", lastMessageTime: Date.now(), messageCount: 42 }];
+  const mockSessions = [
+    { _id: "1", sessionKey: "session-001", channel: "telegram", lastMessage: "See you!", lastMessageTime: Date.now(), messageCount: 42 },
+    { _id: "2", sessionKey: "session-002", channel: "discord", lastMessage: "Thanks for the update", lastMessageTime: Date.now() - 7200000, messageCount: 18 },
+  ];
+
   const [selectedSession, setSelectedSession] = useState<string | null>(null);
-  const messages = useQuery(
-    api.queries.getChatMessages,
-    selectedSession ? { sessionId: selectedSession, limit: 50 } : "skip"
-  );
-  const addMessage = useMutation(api.mutations.addChatMessage);
+  const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,35 +35,37 @@ function ChatTab() {
     scrollToBottom();
   }, [messages]);
 
-  if (!sessions) {
-    return (
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-[600px]">
-        <CardSkeleton />
-        <CardSkeleton />
-      </div>
-    );
-  }
+  // Load mock messages when session changes
+  useEffect(() => {
+    if (selectedSession) {
+      const mockMessages = [
+        { _id: "1", sessionId: selectedSession, role: "user", content: "Hey, how are you?", timestamp: Date.now() - 3600000 },
+        { _id: "2", sessionId: selectedSession, role: "assistant", content: "I'm doing great! How can I help?", timestamp: Date.now() - 3540000 },
+        { _id: "3", sessionId: selectedSession, role: "user", content: "Can you help me with a project?", timestamp: Date.now() - 3480000 },
+        { _id: "4", sessionId: selectedSession, role: "assistant", content: "Of course! I'd be happy to help with your project.", timestamp: Date.now() - 3420000 },
+      ];
+      setMessages(mockMessages);
+    }
+  }, [selectedSession]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || !selectedSession) return;
 
-    setIsLoading(true);
-    try {
-      const session = sessions.find((s) => s.sessionKey === selectedSession);
-      await addMessage({
-        sessionId: selectedSession,
-        channel: session?.channel || "webchat",
-        role: "user",
-        content: input,
-      });
-      setInput("");
-    } finally {
-      setIsLoading(false);
-    }
+    const newMessage = {
+      _id: `msg-${Date.now()}`,
+      sessionId: selectedSession,
+      role: "user",
+      content: input,
+      timestamp: Date.now(),
+    };
+
+    setMessages([...messages, newMessage]);
+    setInput("");
+    setIsLoading(false);
   };
 
-  const currentSession = sessions.find((s) => s.sessionKey === selectedSession);
+  const currentSession = mockSessions.find((s) => s.sessionKey === selectedSession);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-[600px]">
@@ -71,7 +73,7 @@ function ChatTab() {
       <Card className="p-4 overflow-y-auto">
         <h3 className="font-semibold text-white mb-3 text-sm">Sessions</h3>
         <div className="space-y-2">
-          {sessions.map((session) => (
+          {mockSessions.map((session) => (
             <button
               key={session._id}
               onClick={() => setSelectedSession(session.sessionKey)}
