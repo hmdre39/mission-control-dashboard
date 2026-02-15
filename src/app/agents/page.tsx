@@ -90,12 +90,6 @@ function AgentsTab() {
 }
 
 function ModelsTab() {
-  const agents = useQuery(api.queries.getAgents);
-
-  if (!agents) {
-    return <CardSkeleton />;
-  }
-
   const models = [
     { name: "Claude Opus 4.1", usage: "45%", cost: "$0.015/1K", failover: "GPT-4o" },
     { name: "Claude Haiku 4.5", usage: "35%", cost: "$0.001/1K", failover: "GPT-4o mini" },
