@@ -7,10 +7,19 @@ import { CardSkeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
 import { GitBranch, GitCommit, AlertCircle, Check } from "lucide-react";
 
-export default function CodePage() {
-  const activities = [];
+interface Repository {
+  name: string;
+  branch: string;
+  lastCommit: string;
+  commits: number;
+  language: string;
+  status: "clean" | "dirty";
+}
 
-  const repositories = [
+export default function CodePage() {
+  const activities: any[] = [];
+
+  const repositories: Repository[] = [
     {
       name: "mission-control-dashboard",
       branch: "main",
