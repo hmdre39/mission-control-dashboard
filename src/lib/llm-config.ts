@@ -13,7 +13,7 @@ interface LLMConfig {
   retryDelayMs: number;
 }
 
-// Load config from environment variables
+// Load config from environment variables (with safe defaults)
 const llmConfig: LLMConfig = {
   primary: process.env.NEXT_PUBLIC_PRIMARY_MODEL || "anthropic/claude-haiku-4-5",
   fallbacks: [
@@ -26,8 +26,8 @@ const llmConfig: LLMConfig = {
     content: process.env.NEXT_PUBLIC_AGENT_CONTENT_MODEL || "anthropic/claude-haiku-4-5",
     general: process.env.NEXT_PUBLIC_PRIMARY_MODEL || "anthropic/claude-haiku-4-5",
   },
-  maxRetries: parseInt(process.env.NEXT_PUBLIC_MAX_RETRIES || "3"),
-  retryDelayMs: parseInt(process.env.NEXT_PUBLIC_RETRY_DELAY_MS || "1000"),
+  maxRetries: parseInt(process.env.NEXT_PUBLIC_MAX_RETRIES || "3", 10),
+  retryDelayMs: parseInt(process.env.NEXT_PUBLIC_RETRY_DELAY_MS || "1000", 10),
 };
 
 /**
