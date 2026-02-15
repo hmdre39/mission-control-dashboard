@@ -1,14 +1,13 @@
 "use client";
 
-
-
 import { Card } from "@/components/ui/card";
 import { CardSkeleton } from "@/components/ui/skeleton";
 import { TabBar } from "@/components/tab-bar";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, Zap, Users, FileText, Scale, Package } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -18,16 +17,48 @@ const TABS = [
   { id: "legal", label: "Legal" },
 ];
 
+interface EcosystemProduct {
+  name: string;
+  description: string;
+  status: "active" | "development" | "concept";
+  metrics?: Record<string, any>;
+  brand?: Record<string, any>;
+  community?: Record<string, any>;
+  content?: Record<string, any>;
+  legal?: Record<string, any>;
+}
+
 export default function EcosystemDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const product = useQuery(api.queries.getEcosystemProduct, { slug: params.slug });
+  const [slug, setSlug] = useState<string>("");
+  const [product, setProduct] = useState<EcosystemProduct | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    params.then((resolvedParams) => {
+      setSlug(resolvedParams.slug);
+      // Mock product data - in production, fetch from API
+      const mockProduct: EcosystemProduct = {
+        name: resolvedParams.slug.charAt(0).toUpperCase() + resolvedParams.slug.slice(1),
+        description: `Learn more about the ${resolvedParams.slug} ecosystem`,
+        status: "active",
+        metrics: { users: "1.2M", projects: "856", growth: "+24%" },
+        brand: { colors: "Dark theme", logo: "Included" },
+        community: { discord: "15K members", github: "Active" },
+        content: { docs: "Complete", guides: "10+" },
+        legal: { license: "MIT", status: "Open source" },
+      };
+      setProduct(mockProduct);
+      setIsLoading(false);
+    });
+  }, [params]);
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "overview";
 
-  if (!product) {
+  if (isLoading || !product) {
     return (
       <div className="p-4 sm:p-6 lg:p-8 space-y-6">
         <CardSkeleton />
