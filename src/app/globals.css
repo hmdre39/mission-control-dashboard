@@ -1,0 +1,178 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+  }
+
+  body {
+    @apply bg-black text-white;
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply rounded-[16px] border bg-black/50 backdrop-blur-xl;
+    border-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+
+  .glass-card-elevated {
+    @apply glass-card cursor-pointer transition-colors duration-300 hover:bg-white/5;
+  }
+
+  .btn-primary {
+    @apply rounded-[12px] px-4 py-2 font-medium transition-all duration-200 active:scale-95;
+    background-color: #fbbf24;
+    color: #000;
+  }
+
+  .btn-primary:hover {
+    background-color: #f59e0b;
+  }
+
+  .btn-secondary {
+    @apply rounded-[12px] border px-4 py-2 font-medium text-white transition-all duration-200;
+    border-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .btn-ghost {
+    @apply rounded-[12px] px-4 py-2 font-medium transition-all duration-200;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .btn-ghost:hover {
+    color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .auto-refresh {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium;
+    background-color: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.2);
+    color: rgb(134, 239, 172);
+  }
+
+  .auto-refresh::before {
+    content: "";
+    @apply h-1.5 w-1.5 rounded-full;
+    background-color: rgb(34, 197, 94);
+    animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .empty-state {
+    @apply flex flex-col items-center justify-center px-4 py-12;
+  }
+
+  .empty-state-icon {
+    @apply mb-4 h-16 w-16;
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  .empty-state-title {
+    @apply mb-2 text-lg font-semibold;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .empty-state-description {
+    @apply max-w-sm text-center text-sm;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .skeleton {
+    @apply rounded-lg;
+    animation: skeleton-loading 2s infinite;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.05)
+    );
+    background-size: 1000px 100%;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes stagger-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.grid-stagger > * {
+  animation: stagger-up 0.5s ease-out forwards;
+}
+
+.grid-stagger > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.grid-stagger > *:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.grid-stagger > *:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.grid-stagger > *:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.grid-stagger > *:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.grid-stagger > *:nth-child(6) {
+  animation-delay: 0.3s;
+}

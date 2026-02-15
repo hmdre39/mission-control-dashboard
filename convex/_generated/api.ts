@@ -1,0 +1,31 @@
+// Stub API file for development
+export const api = {
+  queries: {
+    getSystemStatus: {},
+    getAgents: {},
+    getAgent: {},
+    getCronJobs: {},
+    getTasks: {},
+    getContentDrafts: {},
+    getCalendarEvents: {},
+    getChatSessions: {},
+    getChatMessages: {},
+    getClients: {},
+    getEcosystemProduct: {},
+    getEcosystemProducts: {},
+    getActivities: {},
+  },
+  mutations: {
+    updateTaskStatus: {},
+    createTask: {},
+    addChatMessage: {},
+    createCalendarEvent: {},
+    updateCalendarEvent: {},
+    deleteCalendarEvent: {},
+    updateContentDraft: {},
+    createContentDraft: {},
+    addClient: {},
+    updateClient: {},
+    addActivity: {},
+  },
+};
